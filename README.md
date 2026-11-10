@@ -24,7 +24,7 @@ Exámenes de práctica convertidos en juegos. Cada jugador escribe su nombre al 
 Navegable con teclado (Tab y flechas), compatible con lectores de pantalla, estados con icono además de color, idioma marcado por materia y contraste WCAG AA verificado con axe-core.
 
 ## Uso
-Abrir `index.html` en el navegador. Sin servidor ni instalación. Se publica en Vercel como sitio estático (sin configuración).
+Abrir `index.html` en el navegador de este equipo. Sin servidor ni instalación (necesita internet solo para cargar las fuentes y Bootstrap).
 
 ## Agregar una materia
 1. Crear `js/subjects/<id>.js` con `EXAMS.<id> = {...}` (ver `js/subjects/sociales.js` como plantilla).
@@ -43,12 +43,10 @@ Para añadir una foto:
 3. Usarla con `image: { src: '<clave>', alt: 'descripción que no revele la respuesta' }`.
 4. `node tests/check.js` comprueba que toda foto tenga crédito y descripción.
 
-## Publicar (GitHub + Vercel)
-Es un sitio estático: no necesita build, servidor ni configuración.
-1. Crear un repositorio vacío en GitHub y subir este proyecto (`git push`).
-2. En [vercel.com](https://vercel.com) → **Add New… → Project** → importar el repositorio.
-3. Framework Preset: **Other**. Dejar vacíos *Build Command* y *Output Directory*. **Deploy**.
-Cada `git push` a `main` vuelve a publicar automáticamente.
+## Imágenes privadas (solo en este equipo)
+La app se usa en local. En `assets/privado/` se pueden poner imágenes propias para uso personal; si existen, se muestran en lugar de las fotos libres. La lista de nombres exactos de archivo (cartucho de cada mundo y portada de cada sección) está en `assets/privado/LEEME.txt`. Sirven `.jpg`, `.png` o `.webp`.
+
+La carpeta está en `.gitignore`: su contenido nunca entra en el repositorio. Si algún día se publicara el proyecto, esas imágenes quedarían fuera y se verían las fotos libres.
 
 ## Pruebas
 `node tests/check.js` valida la corrección de respuestas y la integridad de los 6 bancos de preguntas.

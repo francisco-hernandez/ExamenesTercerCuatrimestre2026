@@ -12,3 +12,6 @@ Thumbs.db
 .vscode/
 .idea/
 .vercel/
+
+# Imágenes privadas: solo para uso personal en este equipo, nunca entran en git
+assets/privado/

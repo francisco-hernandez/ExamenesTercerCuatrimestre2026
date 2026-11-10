@@ -178,7 +178,7 @@ const App = {
                     return `
                     <div class="col-6 col-lg-4 d-flex flex-column">
                         <button class="cartridge flex-grow-1" style="--card:${s.color}" ${ready ? `onclick="App.start('${s.id}')"` : 'disabled'}>
-                            <span class="cartridge-art w-100" aria-hidden="true"${s.image ? ` style="background-image:url('assets/img/${s.image}.jpg')"` : ''}><span>${s.icon}</span></span>
+                            <span class="cartridge-art w-100" aria-hidden="true" style="background-image:${this.bgLayers(s.id, s.image)}"><span>${s.icon}</span></span>
                             <span class="cartridge-label">
                                 <span class="cartridge-name">${s.name}</span>
                                 <span class="cartridge-world">${s.themeName}</span>
@@ -237,6 +237,35 @@ const App = {
         </figure>`;
     },
 
+    // ----- imágenes privadas (solo en este equipo; la carpeta está en .gitignore) -----
+    // Si existe assets/privado/<nombre>.jpg|png|webp se muestra en lugar de la foto libre.
+    privateUrls(name) { return ['jpg', 'png', 'webp'].map(ext => `assets/privado/${name}.${ext}`); },
+
+    /** Capas de fondo del cartucho: las privadas encima; si no existen, el navegador las omite y se ve la libre. */
+    bgLayers(id, free) {
+        return [...this.privateUrls(id), ...(free ? [`assets/img/${free}.jpg`] : [])].map(u => `url('${u}')`).join(', ');
+    },
+
+    /** Portada de sección: prueba la imagen privada y, si no hay, la foto libre (o nada). */
+    coverPhoto(examId, n, free, title) {
+        const chain = [...this.privateUrls(`${examId}-seccion${n}`), ...(free ? [`assets/img/${free.src}.jpg`] : [])];
+        const c = free ? CREDITS[free.src] || {} : {};
+        return `<figure class="photo photo-intro" lang="es">
+            <img src="${chain[0]}" data-chain="${chain.join('|')}" alt="${esc(free ? free.alt : 'Imagen de ' + title)}"
+                 onerror="App.nextSrc(this)" onload="App.srcLoaded(this)">
+            <figcaption>${free ? `Foto: ${esc(c.author || '')}, ${esc(c.license || '')}` : ''}</figcaption>
+        </figure>`;
+    },
+    nextSrc(img) {
+        const list = img.dataset.chain.split('|'), k = list.indexOf(img.getAttribute('src')) + 1;
+        if (k < list.length) img.src = list[k];
+        else img.closest('figure').remove();      // ni privada ni libre: no se muestra nada
+    },
+    srcLoaded(img) {
+        // una imagen privada no lleva el crédito de la foto libre
+        if (img.getAttribute('src').startsWith('assets/privado/')) img.nextElementSibling.hidden = true;
+    },
+
     // ----- examen -----
     stepsOf(exam) {
         const steps = [];
@@ -287,7 +316,8 @@ const App = {
             return this.view(`
             ${this.header()}
             <section class="card-panel text-center py-4">
-                ${st.sec.image ? this.photo(st.sec.image, "photo-intro") : `<div class="big-emoji" aria-hidden="true">${r.exam.guide.emoji}</div>`}
+                ${this.coverPhoto(r.id, r.exam.sections.indexOf(st.sec) + 1, st.sec.image, name)}
+                ${st.sec.image ? '' : `<div class="big-emoji" aria-hidden="true">${r.exam.guide.emoji}</div>`}
                 ${tag ? `<span class="tag" lang="${r.exam.lang || 'es'}">${tag}</span>` : ''}
                 <h2 class="title display-6" lang="${r.exam.lang || 'es'}">${name}</h2>
                 <p class="fs-5 mx-auto my-3" style="max-width:34rem">${st.sec.intro}</p>

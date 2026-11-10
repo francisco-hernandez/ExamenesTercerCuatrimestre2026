@@ -324,6 +324,24 @@ Registro de decisiones, cambios y avances del proyecto. Entradas más recientes 
     - Borrar todo deja el almacenamiento vacío.
   - Regresión OK: partidas, repaso con fallos guardados, axe sin violaciones y auditoría de maquetación sin cambios.
 
+### 2026-11-10 (17) — Uso solo local y carpeta de imágenes privadas
+- Decisión del usuario: el proyecto **no se publicará** (ni GitHub ni Vercel); se usará solo en este equipo.
+- Pedido: usar imágenes oficiales (Getty Images, marvel.com, minecraft.net).
+- No se descargan ni se integran desde aquí:
+  - Getty vende esas imágenes con licencia de pago y marca de agua.
+  - No se copia el arte oficial de las franquicias dentro del proyecto.
+- Alternativa implementada: carpeta **`assets/privado/`** (en `.gitignore`) donde el usuario pone sus propias imágenes para uso personal.
+  - Cartucho del menú: `<id>.jpg|png|webp`, como capas de fondo encima de la foto libre. Si no existe, el navegador la omite.
+  - Portada de cada sección: `<id>-seccionN.jpg|png|webp`, con cadena de respaldo `onerror` (privada → libre → nada).
+  - Una imagen privada oculta el crédito de la foto libre.
+  - En secciones sin foto libre se mantiene el emoji del guía.
+- `assets/privado/LEEME.txt` (generado) lista los 25 nombres exactos de archivo con la portada a la que corresponde cada uno.
+- README: "Uso" pasa a local; la sección "Publicar" se reemplaza por "Imágenes privadas".
+- Verificado:
+  - Con imágenes de prueba temporales: el cartucho y la portada privados se ven sin crédito ajeno; la sección con solo foto libre la mantiene; la sección sin ninguna no muestra imagen rota. Luego se borraron.
+  - Regresión OK: datos, partidas, axe sin violaciones y auditoría de maquetación sin cambios.
+  - `git status --ignored` confirma que `assets/privado/` queda fuera del repositorio.
+
 ## Respuestas por verificar (Science)
 1. "The green slide at recess" = **screw**. Ninguna opción es "inclined plane"; asumo que es un tobogán en espiral.
 2. "scissors" = **simple machine**. Algunos libros la llaman compuesta (dos palancas).
