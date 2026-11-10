@@ -33,7 +33,7 @@
         ],
         sections: [
             {
-                title: 'Nivel 1 · El libro y la formación de palabras',
+                title: 'Nivel 1 · El libro y la formación de palabras', image: { src: 'espanol-libros', alt: 'Pila de libros de colores' },
                 intro: 'Partes del libro, familias de palabras, raíz, prefijos y sufijos.',
                 exercises: [
                     {
@@ -69,7 +69,7 @@
                             estrella: [['estrellita'], ['estrellado', 'estrellada'], ['estrellar'], ['estrellon'], ['estrellero']],
                             mar: [['marino'], ['marinero'], ['marina'], ['marea'], ['mareo'], ['maremoto'], ['marisco'], ['maritimo']]
                         },
-                        answer: 'Pantaloneta, pantaloncito · estrellita, estrellado · marino, marinero, marea, maremoto.',
+                        answer: 'Pantaloneta, pantaloncito; estrellita, estrellado; marino, marinero, marea, maremoto.',
                         hints: ['Agrega un final a la palabra: -ito, -ero, -ado...', 'Ejemplo: sol → soleado, solecito.']
                     },
                     {
@@ -85,7 +85,7 @@
                             flor: [['florero'], ['floreria'], ['florista', 'floristeria'], ['florecer'], ['florido', 'florida'], ['florecita', 'florcita'], ['floral'], ['floracion']],
                             sol: [['soleado', 'soleada'], ['solar'], ['solecito'], ['solazo'], ['solana']]
                         },
-                        answer: 'Frutero, frutería, frutal · florero, florista, floral · soleado, solar, solecito.',
+                        answer: 'Frutero, frutería, frutal; florero, florista, floral; soleado, solar, solecito.',
                         hints: ['¿Dónde se ponen las flores? En el flor...', '¿Cómo es un día con mucho sol? Sole...']
                     },
                     {
@@ -96,10 +96,10 @@
                             { key: 'verdu', label: 'verdu' }, { key: 'ero', label: 'ero' }, { key: 'eria', label: 'ería' }
                         ],
                         items: [
-                            { text: 'Pintura · pintor · pintalabios · pintar', answer: 'pint' },
-                            { text: 'Pan · panadero · pancito · panecillo', answer: 'pan' },
-                            { text: 'Zapato · zapatera · zapatería · zapatero', answer: 'zapat' },
-                            { text: 'Verdulero · verduras · verdulería · verduritas', answer: 'verdu' }
+                            { text: 'Pintura; pintor; pintalabios; pintar', answer: 'pint' },
+                            { text: 'Pan; panadero; pancito; panecillo', answer: 'pan' },
+                            { text: 'Zapato; zapatera; zapatería; zapatero', answer: 'zapat' },
+                            { text: 'Verdulero; verduras; verdulería; verduritas', answer: 'verdu' }
                         ],
                         hints: [
                             'La raíz es la parte que se repite al INICIO de todas las palabras.',
@@ -188,7 +188,7 @@
                             ...syl('Amistad', 'a-mis-tad', 'tad'),
                             ...syl('Cartón', 'car-tón', 'tón')
                         ],
-                        answer: 'cor-di-LLE-ra · man-te-QUI-lla · pan-ta-lo-NE-ta · a-mis-TAD · car-TÓN.',
+                        answer: 'cor-di-LLE-ra; man-te-QUI-lla; pan-ta-lo-NE-ta; a-mis-TAD; car-TÓN.',
                         hints: ['Aplaude la palabra despacio: cada aplauso es una sílaba.', 'Dila como si llamaras a alguien de lejos: la sílaba que estiras es la tónica.']
                     },
                     {
@@ -201,7 +201,7 @@
                             ...syl('Candelabro', 'can-de-la-bro', 'la'),
                             ...syl('Especial', 'es-pe-cial', 'cial')
                         ],
-                        answer: 'tor-MEN-ta · a-be-JI-tas · TA-za · can-de-LA-bro · es-pe-CIAL.',
+                        answer: 'tor-MEN-ta; a-be-JI-tas; TA-za; can-de-LA-bro; es-pe-CIAL.',
                         hints: ['"cial" es UNA sola sílaba: las vocales i + a juntas no se separan.', 'Aplaude: can-de-la-bro tiene 4 sílabas.']
                     },
                     {

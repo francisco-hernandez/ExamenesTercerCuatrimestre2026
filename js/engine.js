@@ -38,23 +38,45 @@ const unitsOf = ex => ex.type === 'classify' ? ex.items.length : ex.type === 'ch
 
 const store = {
     load() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; } },
-    save(d) { try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch { /* modo privado: no se guarda */ } }
+    save(d) { try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch { /* modo privado: no se guarda */ } },
+    clear() { try { localStorage.removeItem(STORE_KEY); } catch { /* nada guardado */ } }
+};
+
+/** Un perfil por jugador: { current, muted, players: { [nombre normalizado]: { name, best, progress } } }.
+ *  Convierte también el formato antiguo de un solo jugador ({ name, best, progress, muted }). */
+const toRoot = d => d.players ? d : {
+    current: d.name ? norm(d.name) : null,
+    muted: !!d.muted,
+    players: d.name ? { [norm(d.name)]: { name: d.name, best: d.best || {}, progress: d.progress || {} } } : {}
 };
 
 // ---------- aplicación ----------
 const App = {
-    data: store.load(),   // { name, muted, best: { [examId]: pct }, progress: { [examId]: { i, points, correct, rewards } } }
+    root: toRoot({}),     // todo lo guardado en el dispositivo
+    data: {},             // perfil del jugador actual: { name, best: { [examId]: pct }, progress: { [examId]: {...} } }
     run: null,
 
     init() {
+        this.root = toRoot(store.load());
+        this.data = this.root.players[this.root.current] || {};
         this.applySound();
         this.data.name ? this.menu() : this.welcome();
+    },
+
+    /** Guarda el perfil actual dentro de su jugador y todo el dispositivo. */
+    save() {
+        if (this.data.name) {
+            const key = norm(this.data.name);
+            this.root.players[key] = this.data;
+            this.root.current = key;
+        }
+        store.save(this.root);
     },
 
     /** Pinta una pantalla, actualiza el título de la pestaña y mueve el foco al encabezado (o a [data-autofocus]). */
     view(html, theme, title) {
         document.body.dataset.theme = theme || '';
-        document.title = `${title} · Misiones de Repaso`;
+        document.title = `${title} | Misiones de Repaso`;
         const app = document.getElementById('app');
         app.innerHTML = html;
         window.scrollTo(0, 0);
@@ -75,44 +97,63 @@ const App = {
     },
 
     // ----- sonido -----
+    // el sonido es del dispositivo, no del jugador
     applySound() {
-        AudioSystem.enabled = !this.data.muted;
+        AudioSystem.enabled = !this.root.muted;
         document.querySelectorAll('.sound-btn').forEach(btn => {
-            btn.textContent = this.data.muted ? '🔇' : '🔊';
-            btn.setAttribute('aria-pressed', String(!this.data.muted));
+            btn.textContent = this.root.muted ? '🔇' : '🔊';
+            btn.setAttribute('aria-pressed', String(!this.root.muted));
         });
     },
     soundButton() {
-        return `<button class="sound-btn" aria-label="Sonido" aria-pressed="${!this.data.muted}" onclick="App.toggleSound()">${this.data.muted ? '🔇' : '🔊'}</button>`;
+        return `<button class="sound-btn" aria-label="Sonido" aria-pressed="${!this.root.muted}" onclick="App.toggleSound()">${this.root.muted ? '🔇' : '🔊'}</button>`;
     },
     toggleSound() {
-        this.data.muted = !this.data.muted;
-        store.save(this.data);
+        this.root.muted = !this.root.muted;
+        this.save();
         this.applySound();
     },
 
     // ----- bienvenida y menú -----
     welcome() {
+        const players = Object.entries(this.root.players);
         this.view(`
-            <section class="card-panel text-center mx-auto" style="max-width:520px">
-                <div class="big-emoji" aria-hidden="true">🎮</div>
-                <h1 class="title">Misiones de Repaso</h1>
-                <p class="lead">Practica para tus exámenes del tercer trimestre jugando.</p>
+            <header class="text-center pt-3">
+                <h1 class="title-pop">Misiones de Repaso</h1>
+                <div class="worlds-row" aria-hidden="true">${CATALOG.map(s => `<span>${s.icon}</span>`).join('')}</div>
+            </header>
+            <section class="card-panel text-center mx-auto" style="max-width:500px">
+                <p class="mb-3">Seis mundos, uno por cada examen del trimestre. Supera las misiones y gana premios.</p>
+                ${players.length ? `
+                <h2 class="fs-4 fw-bold">¿Quién juega?</h2>
+                <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                    ${players.map(([key, p]) => `<button type="button" class="btn-chip" data-key="${esc(key)}" onclick="App.pickPlayer(this.dataset.key)">${esc(p.name)}</button>`).join('')}
+                </div>` : ''}
                 <form onsubmit="event.preventDefault(); App.setName()">
-                    <label for="playerName" class="form-label fw-semibold">¿Cómo te llamas?</label>
-                    <input id="playerName" class="form-control form-control-lg text-center mb-3" maxlength="20"
-                           autocomplete="off" required data-autofocus value="${esc(this.data.name || '')}">
-                    <button class="btn-game w-100">¡Empezar!</button>
+                    <label for="playerName" class="form-label fs-4">${players.length ? '¿Eres nuevo? Escribe tu nombre' : '¿Cómo te llamas?'}</label>
+                    <input id="playerName" class="form-control form-control-lg name-input mb-3" maxlength="20"
+                           autocomplete="off" required ${players.length ? '' : 'data-autofocus'}>
+                    <button class="btn-game w-100">¡A jugar!</button>
                 </form>
-                <p class="small mt-3 mb-0">Tu nombre y tu avance se guardan solo en este dispositivo.</p>
+                <p class="small mt-3 mb-0">Cada jugador tiene sus propios récords. Se guardan solo en este dispositivo.</p>
             </section>`, '', 'Bienvenida');
     },
 
+    /** Entra con el nombre escrito: si ya existe ese jugador, recupera sus récords; si no, crea un perfil nuevo. */
     setName() {
         const name = document.getElementById('playerName').value.trim().slice(0, 20);
         if (!name) return;
-        this.data.name = name;
-        store.save(this.data);
+        const key = norm(name);
+        this.root.players[key] = this.root.players[key] || { name, best: {}, progress: {} };
+        this.root.players[key].name = name;
+        this.pickPlayer(key);
+    },
+
+    pickPlayer(key) {
+        if (!this.root.players[key]) return;
+        this.data = this.root.players[key];
+        this.root.current = key;
+        this.save();
         AudioSystem.playClick();
         this.menu();
     },
@@ -120,30 +161,80 @@ const App = {
     menu() {
         const best = this.data.best || {}, progress = this.data.progress || {};
         this.view(`
-            <header class="text-center mb-4 position-relative">
+            <header class="text-center mb-4 position-relative pt-2">
                 <div class="position-absolute top-0 end-0">${this.soundButton()}</div>
-                <h1 class="title px-5">¡Hola, ${esc(this.data.name)}!</h1>
-                <p class="lead mb-1">Elige una misión. Están en el orden de tus exámenes.</p>
-                <button class="btn btn-link" onclick="App.welcome()">¿No eres ${esc(this.data.name)}? Cambiar nombre</button>
+                <h1 class="title-pop px-5">¡Hola, ${esc(this.data.name)}!</h1>
+                <p class="menu-bubble mb-0">Elige un mundo. Están en el orden de tus exámenes.
+                    <button class="btn-text" onclick="App.welcome()">Cambiar de jugador</button></p>
             </header>
-            <div class="row g-3">
+            <div class="row g-3 g-md-4">
                 ${CATALOG.map(s => {
                     const ready = !!EXAMS[s.id], saved = progress[s.id];
-                    const state = !ready ? 'Próximamente'
-                        : saved ? `▶ Continuar (${Math.round(saved.i / this.stepsOf(EXAMS[s.id]).length * 100)} %)`
-                        : best[s.id] != null ? `Mejor: ${best[s.id]} %` : '¡Disponible!';
+                    const pct = saved ? Math.round(saved.i / this.stepsOf(EXAMS[s.id]).length * 100) : 0;
+                    const state = !ready ? '<span class="state">Próximamente</span>'
+                        : saved ? `<span class="state">Vas por el ${pct} %</span><span class="mini-progress" aria-hidden="true"><i style="width:${pct}%"></i></span>`
+                        : best[s.id] != null ? `<span class="state">Tu récord: ${best[s.id]} %</span>`
+                        : '<span class="state go">¡Juega!</span>';
                     return `
                     <div class="col-6 col-lg-4 d-flex flex-column">
-                        <button class="subject-card w-100 flex-grow-1" ${ready ? `onclick="App.start('${s.id}')"` : 'disabled'}>
-                            <span class="big-emoji" aria-hidden="true">${s.icon}</span>
-                            <strong>${s.name}</strong>
-                            <small>${s.date} · ${s.themeName}</small>
-                            <small class="badge-state">${state}</small>
+                        <button class="cartridge flex-grow-1" style="--card:${s.color}" ${ready ? `onclick="App.start('${s.id}')"` : 'disabled'}>
+                            <span class="cartridge-art w-100" aria-hidden="true"${s.image ? ` style="background-image:url('assets/img/${s.image}.jpg')"` : ''}><span>${s.icon}</span></span>
+                            <span class="cartridge-label">
+                                <span class="cartridge-name">${s.name}</span>
+                                <span class="cartridge-world">${s.themeName}</span>
+                                <span class="ticket">${s.date}</span>
+                                ${state}
+                            </span>
                         </button>
-                        ${saved ? `<button class="btn btn-link btn-sm" onclick="App.start('${s.id}', true)">Empezar ${s.name} de cero</button>` : ''}
+                        ${saved ? `<button class="btn-chip small mt-2 align-self-center" onclick="App.start('${s.id}', true)" aria-label="Empezar ${s.name} de cero">Empezar de cero</button>` : ''}
                     </div>`;
                 }).join('')}
-            </div>`, '', 'Menú');
+            </div>
+            <p class="d-flex flex-wrap justify-content-center gap-2 mt-4">
+                <button class="btn-chip" onclick="App.credits()">Créditos de las fotos</button>
+                <button class="btn-chip" onclick="App.resetAll()">Borrar todo y empezar de nuevo</button>
+            </p>`, '', 'Menú');
+    },
+
+    /** Borra todo lo guardado en este dispositivo (todos los jugadores, récords, avance y sonido) tras confirmar. */
+    resetAll() {
+        if (!window.confirm('¿Borrar todos los jugadores, sus récords y su avance guardados en este dispositivo?\n\nNo se puede deshacer.')) return;
+        store.clear();
+        this.root = toRoot({});
+        this.data = {};
+        this.run = null;
+        this.applySound();
+        this.welcome();
+    },
+
+    /** Página de créditos: las licencias CC BY y CC BY-SA exigen nombrar autor, licencia y fuente. */
+    credits() {
+        this.view(`
+            <section class="card-panel">
+                <h1 class="title">Créditos de las fotos</h1>
+                <p>Todas las fotos vienen de Wikimedia Commons y tienen licencia libre. Gracias a sus autores.</p>
+                <ul class="credits-list">
+                    ${Object.entries(CREDITS).map(([key, c]) => `
+                    <li>
+                        <img src="assets/img/${key}.jpg" alt="" loading="lazy" width="96" height="72">
+                        <span><strong>${esc(c.title)}</strong><br>
+                        Autor: ${esc(c.author)}<br>
+                        Licencia: ${c.licenseUrl ? `<a href="${esc(c.licenseUrl)}" target="_blank" rel="noopener">${esc(c.license)}</a>` : esc(c.license)}
+<br><a href="${esc(c.source)}" target="_blank" rel="noopener">Ver la foto original</a></span>
+                    </li>`).join('')}
+                </ul>
+                <p class="text-center mb-0"><button class="btn-game" onclick="App.menu()">Volver al menú</button></p>
+            </section>`, '', 'Créditos de las fotos');
+    },
+
+    /** Foto con su crédito. `img` = { src: clave en assets/img, alt: descripción que no revela la respuesta }. */
+    photo(img, cls = '') {
+        if (!img) return '';
+        const c = CREDITS[img.src] || {};
+        return `<figure class="photo ${cls}" lang="es">
+            <img src="assets/img/${img.src}.jpg" alt="${esc(img.alt)}" loading="lazy">
+            <figcaption>Foto: ${esc(c.author || '')}, ${esc(c.license || '')}</figcaption>
+        </figure>`;
     },
 
     // ----- examen -----
@@ -163,7 +254,7 @@ const App = {
         const max = steps.filter(st => st.kind === 'ex').reduce((n, st) => n + unitsOf(st.ex), 0) * POINTS;
         this.data.progress = this.data.progress || {};
         let saved = this.data.progress[id];
-        if (fresh || (saved && saved.i >= steps.length)) { delete this.data.progress[id]; saved = null; store.save(this.data); }
+        if (fresh || (saved && saved.i >= steps.length)) { delete this.data.progress[id]; saved = null; this.save(); }
         this.run = { id, exam, steps, max, i: -1, points: 0, correct: 0, rewards: 0, misses: [] };
         if (saved) Object.assign(this.run, saved, { i: saved.i - 1 });
         AudioSystem.playClick();
@@ -187,18 +278,22 @@ const App = {
         // se guarda al entrar en cada paso: al volver se repite el paso actual desde el principio
         if (!r.practice) {
             this.data.progress[r.id] = { i: r.i, points: r.points, correct: r.correct, rewards: r.rewards, misses: r.misses };
-            store.save(this.data);
+            this.save();
         }
         const st = r.steps[r.i];
         if (st.kind === 'mini') return this.miniGame();
-        if (st.kind === 'intro') return this.view(`
+        if (st.kind === 'intro') {
+            const [tag, name] = this.splitTitle(st.sec.title);
+            return this.view(`
             ${this.header()}
-            <section class="card-panel text-center">
-                <div class="big-emoji" aria-hidden="true">${r.exam.guide.emoji}</div>
-                <h2 class="title" lang="${r.exam.lang || 'es'}">${st.sec.title}</h2>
-                <p class="lead">${st.sec.intro}</p>
+            <section class="card-panel text-center py-4">
+                ${st.sec.image ? this.photo(st.sec.image, "photo-intro") : `<div class="big-emoji" aria-hidden="true">${r.exam.guide.emoji}</div>`}
+                ${tag ? `<span class="tag" lang="${r.exam.lang || 'es'}">${tag}</span>` : ''}
+                <h2 class="title display-6" lang="${r.exam.lang || 'es'}">${name}</h2>
+                <p class="fs-5 mx-auto my-3" style="max-width:34rem">${st.sec.intro}</p>
                 <button class="btn-game" onclick="App.next()">¡Vamos!</button>
-            </section>`, r.exam.theme, st.sec.title);
+            </section>`, r.exam.theme, name);
+        }
         this.exercise(st.ex);
     },
 
@@ -206,16 +301,18 @@ const App = {
         const r = this.run, pct = Math.round((r.i / r.steps.length) * 100);
         return `
             <header class="hud mb-3">
-                <button class="btn btn-sm btn-outline-light" onclick="App.menu()" aria-label="${r.practice ? 'Volver al menú' : 'Volver al menú (tu avance se guarda)'}">← Menú</button>
-                <h1 class="hud-title">${r.exam.title}${r.practice ? ' · Repaso' : ''}</h1>
+                <button class="btn-chip" onclick="App.menu()" aria-label="${r.practice ? 'Volver al menú' : 'Volver al menú (tu avance se guarda)'}">Menú</button>
+                <h1 class="hud-title">${r.practice ? `Repaso: ${r.exam.title}` : r.exam.title}</h1>
                 <span class="hud-points" aria-label="Puntos">⭐ ${r.points} / ${r.max}</span>
                 ${this.soundButton()}
-                <div class="progress w-100" role="progressbar" aria-label="Avance del examen" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress" role="progressbar" aria-label="Avance del examen" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
                     <div class="progress-bar" style="width:${pct}%"></div>
                 </div>
                 <div class="hud-rewards" role="img" aria-label="${this.rewardsLabel()}">${this.rewardsIcons()}</div>
             </header>`;
     },
+    /** "Taller 1 · Conceptos del clima" → ["Taller 1", "Conceptos del clima"]: el número va en una etiqueta aparte. */
+    splitTitle(t) { const k = t.indexOf(' · '); return k < 0 ? [null, t] : [t.slice(0, k), t.slice(k + 3)]; },
     rewardsIcons() { const w = this.run.exam.reward; return w.won.repeat(this.run.rewards) || w.emoji; },
     rewardsLabel() { return `Premios conseguidos: ${this.run.rewards}`; },
 
@@ -245,16 +342,17 @@ const App = {
         }
         this.view(`
             ${this.header()}
-            <p class="guide"><span aria-hidden="true">${r.exam.guide.emoji}</span> ${cheer}</p>
+            <div class="guide"><span class="guide-avatar" aria-hidden="true">${r.exam.guide.emoji}</span><p class="bubble">${cheer}</p></div>
             <section class="card-panel" aria-label="Ejercicio ${stepNo} de ${total}">
                 ${ex.text ? `<div class="reading" lang="${lang}">${ex.text}</div>` : ''}
+                ${this.photo(ex.image, ex.imageTall ? "tall" : "")}
                 <h2 class="question" lang="${lang}">${ex.prompt}</h2>
                 <div lang="${lang}">${body}</div>
                 <div id="hint" class="hint" aria-live="polite"></div>
                 <div class="text-center mt-3" id="actions">
                     ${ex.type === 'choice' ? '' : '<button class="btn-game" onclick="App.check()">Comprobar</button>'}
                 </div>
-            </section>`, r.exam.theme, `${r.exam.title} — ejercicio ${stepNo} de ${total}`);
+            </section>`, r.exam.theme, `Ejercicio ${stepNo} de ${total}: ${r.exam.title}`);
     },
 
     /** Flechas dentro de una fila de opciones (patrón radiogroup): mueven y eligen. */
@@ -300,7 +398,7 @@ const App = {
         if (c.done) return;
         let gained = 0;
         if (ex.type === 'classify') {
-            if (ex.items.some((_, n) => !c.ok[n] && !c.sel[n])) return this.hint('Te falta elegir una opción en alguna línea. 😉');
+            if (ex.items.some((_, n) => !c.ok[n] && !c.sel[n])) return this.hint('Te falta elegir una opción en alguna línea.');
             ex.items.forEach((it, n) => {
                 if (c.ok[n]) return;
                 const row = document.getElementById(`row-${n}`), status = row.querySelector('.row-status');
@@ -320,7 +418,7 @@ const App = {
         }
         if (ex.type === 'write') {
             const inputs = [...document.querySelectorAll('.write-input')];
-            if (inputs.some((inp, n) => !c.ok[n] && !inp.value.trim())) return this.hint('Escribe algo en todas las casillas. ✏️');
+            if (inputs.some((inp, n) => !c.ok[n] && !inp.value.trim())) return this.hint('Escribe algo en todas las casillas.');
             const fields = fieldsOf(ex), pools = poolsOf(ex);
             const res = fields.map((f, n) => !!f.accept && matchField(inputs[n].value, f));
             Object.entries(pools).forEach(([key, pool]) => {
@@ -358,17 +456,17 @@ const App = {
         }
         if (c.ok.every(Boolean)) {
             AudioSystem.playCorrect();
-            return this.finish(`🎉 ¡Excelente! +${gained * pts} puntos`);
+            return this.finish(`¡Excelente! +${gained * pts} puntos`);
         }
         AudioSystem.playWrong();
         c.attempts++;
         if (c.attempts < MAX_ATTEMPTS) {
             const extra = gained ? ` Ganaste +${gained * pts} puntos por las que acertaste.` : '';
             const next = pointsFor(c.attempts);
-            return this.hint(`${notes.join(' ')} ¡Casi! Revisa las marcadas con ✖.${extra}<br>💡 ${c.ex.hints[c.attempts - 1]}<br><small>Si aciertas ahora ganas ${next} puntos por respuesta.</small>`);
+            return this.hint(`${notes.join(' ')} ¡Casi! Revisa las marcadas con ✖.${extra}<br><strong>Pista:</strong> ${c.ex.hints[c.attempts - 1]}<br><small>Si aciertas ahora ganas ${next} puntos por respuesta.</small>`);
         }
         this.reveal();
-        this.finish('No pasa nada: ahora ya sabes la respuesta. ¡Sigue aprendiendo! 💪');
+        this.finish('No pasa nada: ahora ya sabes la respuesta. ¡Sigue aprendiendo!');
     },
 
     reveal() {
@@ -395,7 +493,7 @@ const App = {
         document.querySelectorAll('.opt').forEach(b => b.disabled = true);
         const hint = document.getElementById('hint');
         hint.innerHTML = `<strong>${msg}</strong>` + (hint.innerHTML.startsWith('➜') ? `<br>${hint.innerHTML}` : '');
-        document.getElementById('actions').innerHTML = '<button class="btn-game" id="nextBtn" onclick="App.next()">Siguiente →</button>';
+        document.getElementById('actions').innerHTML = '<button class="btn-game" id="nextBtn" onclick="App.next()">Siguiente</button>';
         document.getElementById('nextBtn').focus();
     },
 
@@ -406,7 +504,7 @@ const App = {
         this.view(`
             ${this.header()}
             <section class="card-panel text-center">
-                <h2 class="title">⏸️ Pausa de respiro</h2>
+                <h2 class="title">Pausa de respiro</h2>
                 <p class="lead">${g.prompt}</p>
                 <div class="mini-grid">${cells.map(e =>
                     `<button class="mini-cell" aria-label="${g.names[e]}" onclick="App.miniPick(this, ${e === g.target})">${e}</button>`).join('')}</div>
@@ -424,7 +522,7 @@ const App = {
         }
         AudioSystem.playCorrect();
         btn.classList.add('right');
-        msg.textContent = '¡Lo encontraste! 🎉';
+        msg.textContent = '¡Lo encontraste!';
         setTimeout(() => this.next(), 1200);
     },
 
@@ -435,24 +533,25 @@ const App = {
             this.data.best = this.data.best || {};
             this.data.best[r.id] = Math.max(this.data.best[r.id] || 0, pct);
             delete this.data.progress[r.id];
-            store.save(this.data);
+            this.save();
         }
         if (passed) AudioSystem.playVictory();
         const name = esc(this.data.name);
         const title = r.practice ? `¡Repaso terminado, ${name}!` : passed ? `¡Misión cumplida, ${name}!` : `¡Buen trabajo, ${name}!`;
         const message = r.practice
-            ? (r.misses.length ? 'Todavía quedan algunas para practicar. ¡Ya casi!' : '¡Ahora te sabes todas las que habías fallado! 🌟')
-            : passed ? 'Superaste el 70 %. ¡Te ganaste 30 minutos más de juego! 🎮'
+            ? (r.misses.length ? 'Todavía quedan algunas para practicar. ¡Ya casi!' : '¡Ahora te sabes todas las que habías fallado!')
+            : passed ? 'Superaste el 70 %. ¡Te ganaste 30 minutos más de juego!'
             : `Necesitas el ${PASS_PCT} % para ganar el premio. ¡Inténtalo otra vez, cada intento te hace más fuerte!`;
         this.view(`
             <section class="card-panel text-center">
                 <div class="big-emoji" aria-hidden="true">${passed ? '🏆' : r.exam.guide.emoji}</div>
                 <h1 class="title">${title}</h1>
-                <p class="score">${r.points} / ${r.max} puntos · ${pct} %</p>
+                <p class="score">${pct} %</p>
+                <p class="fw-bold mb-2">${r.points} de ${r.max} puntos</p>
                 <p class="fs-1" role="img" aria-label="${this.rewardsLabel()}">${this.rewardsIcons()}</p>
                 <p class="lead">${message}</p>
                 <div class="d-flex flex-wrap justify-content-center gap-2">
-                    ${r.misses.length ? `<button class="btn-game" onclick="App.practice()">🔁 Repetir solo las ${r.misses.length} falladas</button>` : ''}
+                    ${r.misses.length ? `<button class="btn-game" onclick="App.practice()">Repetir las ${r.misses.length} que fallé</button>` : ''}
                     ${r.practice ? '' : `<button class="btn-game" onclick="App.start('${r.id}', true)">Repetir misión</button>`}
                     <button class="btn-game btn-alt" onclick="App.menu()">Volver al menú</button>
                 </div>
@@ -464,10 +563,12 @@ const App = {
     reviewHtml() {
         const r = this.run, lang = r.exam.lang || 'es';
         if (!r.misses.length) return '';
+        // clasificar: una lista de "ítem → respuesta"; el resto, una sola línea
         const answerOf = (ex, wrong) =>
-            ex.type === 'choice' ? ex.options[ex.answer]
-            : ex.type === 'write' ? ex.answer
-            : wrong.map(n => `${ex.items[n].text} → <strong>${ex.categories.find(c => c.key === ex.items[n].answer).label}</strong>`).join('<br>');
+            ex.type === 'choice' ? `<p class="mb-1" lang="${lang}">➜ ${ex.options[ex.answer]}</p>`
+            : ex.type === 'write' ? `<p class="mb-1" lang="${lang}">➜ ${ex.answer}</p>`
+            : `<ul class="answer-list" lang="${lang}">${wrong.map(n =>
+                `<li><span>${ex.items[n].text}</span><strong>${ex.categories.find(c => c.key === ex.items[n].answer).label}</strong></li>`).join('')}</ul>`;
         const status = m => m.at === null ? 'No la acertaste: repásala.' : `Acertaste al ${m.at + 1}.º intento.`;
         const bySection = new Map();
         r.misses.forEach(m => {
@@ -476,16 +577,16 @@ const App = {
             bySection.get(st.sec).push(`
                 <li class="review-item">
                     <p class="mb-1 fw-semibold" lang="${lang}">${st.ex.prompt}</p>
-                    <p class="mb-1" lang="${lang}">➜ ${answerOf(st.ex, m.wrong)}</p>
+                    ${answerOf(st.ex, m.wrong)}
                     <p class="small mb-0">${status(m)}</p>
                 </li>`);
         });
         return `
             <section class="card-panel mt-3 review" aria-labelledby="reviewTitle">
-                <h2 class="question" id="reviewTitle">📋 Para repasar (${r.misses.length})</h2>
+                <h2 class="title" id="reviewTitle">Para repasar (${r.misses.length})</h2>
                 <p class="small">Estas preguntas no salieron a la primera. Aquí tienes la respuesta correcta.</p>
                 ${[...bySection].map(([sec, items]) => `
-                    <h3 class="fs-6 mt-3 text-uppercase" lang="${lang}">${sec.title}</h3>
+                    <h3 class="review-section" lang="${lang}">${this.splitTitle(sec.title)[1]}</h3>
                     <ul class="list-unstyled mb-0">${items.join('')}</ul>`).join('')}
             </section>`;
     }

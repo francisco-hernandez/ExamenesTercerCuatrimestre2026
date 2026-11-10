@@ -29,7 +29,7 @@
         ],
         sections: [
             {
-                title: 'Night 1 · Simple machines',
+                title: 'Night 1 · Simple machines', image: { src: 'science-tobogan', alt: 'Tobogán en espiral en un parque' },
                 intro: 'Máquinas simples y complejas, y cómo los inventos cambian con el tiempo (Unit 6).',
                 exercises: [
                     {
@@ -62,7 +62,7 @@
                     },
                     {
                         type: 'classify', prompt: 'Simple machine or complex machine?',
-                        categories: [{ key: 's', label: 'A · simple machine' }, { key: 'c', label: 'B · complex machine' }],
+                        categories: [{ key: 's', label: 'simple machine (A)' }, { key: 'c', label: 'complex machine (B)' }],
                         items: [
                             { text: '🪓 ax', answer: 's' }, { text: '🚗 car', answer: 'c' }, { text: '✂️ scissors', answer: 's' },
                             { text: '📱 cell phone', answer: 'c' }, { text: '☸️ wheel and axle', answer: 's' }
@@ -72,7 +72,7 @@
                 ]
             },
             {
-                title: "Night 2 · Earth's landscapes",
+                title: "Night 2 · Earth's landscapes", image: { src: 'science-bahia', alt: 'Costa con palmeras y mar en Costa Rica' },
                 intro: 'Paisajes costeros y del interior, naturales y artificiales, y cómo cuidar los recursos (Unit 7).',
                 exercises: [
                     {
@@ -97,7 +97,7 @@
                     },
                     {
                         type: 'classify', prompt: 'Natural feature or artificial feature?',
-                        categories: [{ key: 'n', label: 'A · natural' }, { key: 'a', label: 'B · artificial' }],
+                        categories: [{ key: 'n', label: 'natural (A)' }, { key: 'a', label: 'artificial (B)' }],
                         items: [
                             { text: '⚓ port', answer: 'a' }, { text: '🏞️ river', answer: 'n' }, { text: '🏝️ island', answer: 'n' },
                             { text: '🏢 buildings', answer: 'a' }, { text: '🌾 farmland', answer: 'a' }
@@ -128,13 +128,13 @@
                         type: 'write',
                         prompt: "What is something you can do to save Earth's resources? Answer with a full sentence.",
                         fields: [{ label: 'I can…', accept: ['recycl', 'reuse', 'reduce', 'turn off', 'save', 'walk', 'bike', 'bicycle', 'plant', 'pick up', 'trash', 'garbage', 'close', 'shower', 'light', 'water', 'energy', 'compost'] }],
-                        answer: 'Example: "I can turn off the lights when I leave a room." · "I can recycle plastic bottles." · "I can close the tap while I brush my teeth."',
+                        answer: 'Example: "I can turn off the lights when I leave a room."; "I can recycle plastic bottles."; "I can close the tap while I brush my teeth."',
                         hints: ['Empieza con "I can..." y piensa en el agua, la luz o la basura.', 'Ejemplo: "I can recycle paper and plastic."']
                     }
                 ]
             },
             {
-                title: 'Night 3 · Weather',
+                title: 'Night 3 · Weather', image: { src: 'science-turbinas', alt: 'Aerogeneradores en el mar' },
                 intro: 'Qué causa el clima, la precipitación, el viento y los instrumentos para medirlo (Unit 8).',
                 exercises: [
                     {
@@ -172,19 +172,19 @@
                         hints: ['"Forecast" = pronóstico.', 'El pronóstico habla del FUTURO.']
                     },
                     {
-                        type: 'choice', prompt: '🌧️ What tool would you use to measure rainfall?', options: TOOLS, answer: 0,
+                        type: 'choice', prompt: 'What tool would you use to measure rainfall?', image: { src: 'science-pluviometro', alt: 'Tubo transparente con una escala de números' }, imageTall: true, options: TOOLS, answer: 0,
                         hints: ['Es un vaso con números para ver cuánta agua cayó.', '"Rain" = lluvia → rain gauge.']
                     },
                     {
-                        type: 'choice', prompt: '🌡️ What tool would you use to measure temperature?', options: TOOLS, answer: 2,
+                        type: 'choice', prompt: 'What tool would you use to measure temperature?', image: { src: 'science-termometro', alt: 'Instrumento de pared con una escala de números' }, imageTall: true, options: TOOLS, answer: 2,
                         hints: ['Es el mismo que usan cuando tienes fiebre.', 'Thermo = calor → thermometer.']
                     },
                     {
-                        type: 'choice', prompt: '🧭 What tool would you use to measure wind direction?', options: TOOLS, answer: 3,
+                        type: 'choice', prompt: 'What tool would you use to measure wind direction?', image: { src: 'science-veleta', alt: 'Flecha sobre un techo con las letras N, S, E y W' }, options: TOOLS, answer: 3,
                         hints: ['Muchas veces tiene un gallo encima y las letras N, S, E, W.', '"Vane" gira hacia donde sopla el viento → weathervane.']
                     },
                     {
-                        type: 'choice', prompt: '💨 What tool would you use to measure wind speed?', options: TOOLS, answer: 1,
+                        type: 'choice', prompt: 'What tool would you use to measure wind speed?', image: { src: 'science-anemometro', alt: 'Aparato con tacitas en lo alto de un poste' }, imageTall: true, options: TOOLS, answer: 1,
                         hints: ['Tiene tacitas que giran rápido con el viento.', 'Anemo = viento → anemometer.']
                     }
                 ]

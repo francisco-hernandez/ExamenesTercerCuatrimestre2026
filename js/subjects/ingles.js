@@ -37,27 +37,27 @@
                 intro: 'Países del mundo y sus lugares famosos (Unit 8).',
                 exercises: [
                     {
-                        type: 'choice', prompt: 'Where is the Great Wall of China located?',
+                        type: 'choice', prompt: 'Where is the Great Wall of China located?', image: { src: 'ingles-muralla', alt: 'Muralla larga que sube por montañas verdes' },
                         options: ['USA', 'Egypt', 'China', 'Argentina'], answer: 2,
                         hints: ['¡La respuesta está en el nombre!', 'The Great Wall of ... China.']
                     },
                     {
-                        type: 'choice', prompt: 'What country are the Sphinx and Great Pyramids in?',
+                        type: 'choice', prompt: 'What country are the Sphinx and Great Pyramids in?', image: { src: 'ingles-esfinge', alt: 'Esfinge de piedra frente a una pirámide' },
                         options: ['USA', 'Egypt', 'China', 'Argentina'], answer: 1,
                         hints: ['Las pirámides están en el desierto de África.', 'Los faraones vivían en Egipto (Egypt).']
                     },
                     {
-                        type: 'choice', prompt: 'The Taj Mahal is in what country?',
+                        type: 'choice', prompt: 'The Taj Mahal is in what country?', image: { src: 'ingles-taj', alt: 'Palacio blanco con cúpula y cuatro torres' },
                         options: ['Brazil', 'India', 'Canada', 'Argentina'], answer: 1,
                         hints: ['Está en Asia.', 'Es un palacio blanco en la India.']
                     },
                     {
-                        type: 'choice', prompt: 'What country is the Basilica of the Sagrada Familia in?',
+                        type: 'choice', prompt: 'What country is the Basilica of the Sagrada Familia in?', image: { src: 'ingles-sagrada', alt: 'Basílica con torres altas y fachada muy decorada' },
                         options: ['USA', 'Spain', 'Turkey', 'Australia'], answer: 1,
                         hints: ['Está en Europa, en la ciudad de Barcelona.', 'Barcelona está en España (Spain).']
                     },
                     {
-                        type: 'choice', prompt: 'The Amazon Rainforest is in what country?',
+                        type: 'choice', prompt: 'The Amazon Rainforest is in what country?', image: { src: 'ingles-amazonas', alt: 'Selva espesa junto a un río' },
                         options: ['Brazil', 'Egypt', 'China', 'Costa Rica'], answer: 0,
                         hints: ['Es la selva más grande del mundo, en Sudamérica.', 'Allí se habla portugués.']
                     }
@@ -120,7 +120,7 @@
                             exact('live → past', 'lived'), exact('present ← sang', 'sing'),
                             exact('cry → past', 'cried'), exact('present ← ate', 'eat')
                         ],
-                        answer: 'went · walk · played · clean · lived · sing · cried · eat.',
+                        answer: 'went; walk; played; clean; lived; sing; cried; eat.',
                         hints: [
                             'Los regulares agregan -ed (play → played). Si terminan en "e", solo -d (live → lived). Consonante + y → -ied (cry → cried).',
                             'Irregulares: go → went, sing → sang, eat → ate.'
@@ -136,7 +136,7 @@
                             exact('The Pacific Ocean is the ___ (deep) ocean in the world.', 'deepest', 'the deepest'),
                             exact('An elephant is ___ (heavy) than a horse.', 'heavier')
                         ],
-                        answer: 'oldest · longest · more interesting · deepest · heavier.',
+                        answer: 'oldest; longest; more interesting; deepest; heavier.',
                         hints: [
                             '"than" = comparativo (-er / more). "the ... in" = superlativo (-est / most).',
                             'Palabras largas usan more/most: more interesting. Consonante + y → -ier: heavy → heavier.'
@@ -152,7 +152,7 @@
                             exact('Antarctica is the ___ (cold) continent.', 'coldest', 'the coldest'),
                             exact('The Sahara desert is ___ (large) than the Arabian desert.', 'larger')
                         ],
-                        answer: 'younger · friendlier · biggest · coldest · larger.',
+                        answer: 'younger; friendlier; biggest; coldest; larger.',
                         hints: [
                             'big → biggest (se duplica la g). large → larger (termina en e, solo -r).',
                             'friendly → friendlier (la y cambia a i).'

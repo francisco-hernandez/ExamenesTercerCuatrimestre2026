@@ -208,6 +208,122 @@ Registro de decisiones, cambios y avances del proyecto. Entradas más recientes 
 - Revisado antes del commit: ningún archivo publicado contiene nombres del niño ni del colegio. `node tests/check.js` OK.
 - Pendiente (lo hace el usuario): crear el repositorio en GitHub, hacer `git push` e importarlo en Vercel.
 
+### 2026-11-10 (12) — Rediseño visual para niños de 9 años, sin "AI slop"
+- Pedido del usuario:
+  - Quitar `border-left: 4px solid var(--accent)` (#f5a623), porque delata que la interfaz está hecha con IA.
+  - Hacer exámenes y menús más llamativos para niños de 9 años.
+  - Evitar el "AI slop".
+- Dirección visual: **pegatina de videojuego**.
+  - Contorno de tinta grueso (`--ink: #231942`) y sombra dura desplazada, sin difuminar.
+  - Paneles de papel blanco sobre el fondo saturado de cada mundo.
+  - Botones que se hunden al pulsarlos.
+- Tipografía: **Lilita One** en los títulos (con contorno de tinta en los títulos sobre el fondo) y **Baloo 2** en el texto (reemplazan a Bungee y Fredoka).
+- Mundos (fondos con patrón propio):
+  - Selva con hojas (Jurassic World).
+  - Volcán rojo a rayas (Parque Jurásico).
+  - Cómic con trama de puntos (Marvel).
+  - Pasto y tierra en bloques con esquinas rectas (Minecraft).
+  - Piso de cuadros de pizzería (Five Nights).
+  - Pivotes LEGO.
+  - Cielo con confeti (menú).
+- Pantallas:
+  - Bienvenida con los seis mundos como protagonistas.
+  - Menú como estantería de cartuchos del color de cada mundo, con fecha en "boleto", récord o avance con barra.
+  - Guía con avatar y globo de diálogo; pistas en un globo amarillo.
+  - Portada de sección con etiqueta "Taller 1" separada del título.
+  - Barra superior con contador de puntos tipo moneda y barra de avance a rayas en la misma línea que los premios.
+  - Resultados con el porcentaje en grande.
+- Eliminados por ser "tells" de IA:
+  - Bordes laterales de acento (pistas y repaso).
+  - Textos unidos con " · " (catálogo, datos de las 6 materias, marcador).
+  - Títulos en MAYÚSCULAS.
+  - Flechas "→" en botones.
+  - Emojis decorativos delante de títulos y mensajes (📋 🔁 ⏸️ 💡 🎉 💪 🎮 🌟 😉 ✏️).
+  - Guion largo en el título de la pestaña.
+  - Se mantienen solo ✔ ✖ ➜ ●, porque indican estado (accesibilidad).
+- Contraste:
+  - Tinta sobre todos los rellenos ≥ 6.45:1 y sobre blanco 16.3:1.
+  - El blanco sobre cielo y selva no llega al mínimo, por eso ahí solo hay títulos con contorno de tinta; el resto del texto va en paneles blancos.
+- Verificado:
+  - `tests/check.js` OK.
+  - Partidas de las 6 materias, flujo de repaso y axe sin violaciones (incluidos estados de error y resultados).
+  - Sin desbordamiento a 360 y 768 px; capturas de todos los mundos revisadas.
+
+### 2026-11-10 (13) — Corrección de textos cortados o aplastados (auditoría de maquetación)
+- Reporte del usuario: en el examen, "Misión Isla Nublar: el clima de Costa Rica" se veía muy cortado.
+- Causa: la barra superior usaba `flex-wrap`. A partir de ~992 px la barra de avance subía a la primera fila y aplastaba el título a una palabra por línea; entre 576 y 767 px pasaba algo parecido.
+- Auditoría automática (fuera del repo):
+  - Recorre bienvenida, menú, cada paso de los 6 exámenes (normal y con pistas o errores), pausas y resultados con repaso, a 320, 375, 576, 768, 992 y 1280 px.
+  - Detecta textos aplastados, textos que se salen de su caja, contenido recortado y elementos fuera de la pantalla.
+- Errores encontrados y corregidos:
+  - **Barra superior:** ahora es una cuadrícula de filas fijas. En PC: menú, título, puntos y sonido; debajo, avance y premios. Hasta 767 px el título va en su propia fila.
+  - **Mini-juego a 320 px:** las casillas se salían de la pantalla. Ahora la cuadrícula usa `minmax(0, 1fr)` y el emoji escala con el ancho.
+  - **Menú a 320 px:** "Empezar Portugués de cero" pasa a "Empezar de cero" (con `aria-label` completo) y la tarjeta muestra solo el nombre del mundo.
+  - **Celular:** botones grandes, títulos de sección y avatar del guía más compactos; la barra de avance ocupa más ancho.
+  - **Repaso final:** las respuestas de clasificar eran un párrafo con saltos de línea. Ahora son una lista: cada ítem con su respuesta en una píldora "✔".
+- Resultado: ningún aviso de 375 a 1280 px. A 320 px quedan 6 casos de frases con palabras largas en 3-4 líneas, revisados en captura y legibles.
+- Re-verificado: `tests/check.js` OK, partidas de las 6 materias, axe sin violaciones.
+
+### 2026-11-10 (14) — Fotos reales con licencia libre
+- Pedido del usuario: usar imágenes, colores y recursos de media de cada franquicia para motivar a los niños.
+- Decisión: **no** se descargan ni publican imágenes oficiales (logos, personajes, capturas). El sitio será público en GitHub/Vercel, y eso es distribuir material con derechos de autor y marcas registradas, aunque no se monetice.
+- Alternativa aceptada (opción 1): fotos e ilustraciones **reales y educativas** de Wikimedia Commons, solo con CC0, dominio público, CC BY o CC BY-SA.
+- 23 fotos de 640 px (unos 4.4 MB) en `assets/img/`:
+  - Volcán Arenal, costa de Guanacaste y páramo del Cerro de la Muerte.
+  - Libros.
+  - Lapas (guacamayas), perezoso, tucán y basura en un parque (la situación de Mariana).
+  - Gran Muralla, Esfinge, Taj Mahal, Sagrada Familia y selva amazónica.
+  - Cera de panal (hexágonos), balanza y lápices.
+  - Tobogán en espiral, bahía, aerogeneradores, pluviómetro, termómetro, veleta y anemómetro.
+- Descarga con un script (fuera del repo) que valida la licencia y genera `js/credits.js` con título, autor, licencia y enlace. Se revisaron todas en una hoja de contactos y se reemplazaron 7 poco claras.
+- Se eliminó la foto del Teatro Nacional porque revelaba una respuesta (aportes culturales de San José).
+- Dónde aparecen:
+  - Cartuchos del menú (foto de fondo y emoji del mundo como insignia).
+  - Portadas de 12 secciones.
+  - 10 preguntas: lugares famosos (Inglés), instrumentos del tiempo (Science, como en el PDF) y la situación de Mariana.
+- Ninguna foto ni su texto alternativo revela respuestas: los `alt` describen sin nombrar la respuesta.
+- Créditos: pie pequeño en cada foto y página "Créditos de las fotos" desde el menú (lo exigen CC BY y CC BY-SA).
+- Las preguntas de instrumentos de Science perdieron sus emojis iniciales (regla anti "AI slop"); las fotos verticales se muestran completas (`imageTall`).
+- `tests/check.js` ahora valida que cada foto usada exista, tenga crédito con licencia permitida y `alt`, y que no haya fotos sin crédito.
+- README: sección "Fotos". También se quitaron del README los puntos medios y el guion largo del título.
+- Verificado:
+  - Datos OK; partidas de las 6 materias y repaso OK.
+  - axe sin violaciones en pantallas con foto y en créditos.
+  - Auditoría de maquetación sin cambios: nada de 375 a 1280 px.
+  - Capturas revisadas.
+
+### 2026-11-10 (15) — Botón "Borrar todo y empezar de nuevo"
+- Pedido del usuario: poder reiniciar el sistema para que el niño empiece sin ver los avances del adulto, ahora y en el futuro.
+- Menú: botón "Borrar todo y empezar de nuevo" junto a "Créditos de las fotos". Pide confirmación (`confirm`), porque no se puede deshacer.
+- `App.resetAll()` borra la única clave de `localStorage` (`misiones3`): nombre, récords, avance a medias con sus fallos y preferencia de sonido. Luego vuelve a la bienvenida con el nombre vacío.
+- Verificado en navegador:
+  - Cancelar no borra nada; confirmar deja el almacenamiento vacío.
+  - El menú del nuevo jugador sale sin récords ni avance, y sigue limpio al recargar.
+  - axe sin violaciones; captura a 320 y 900 px revisada.
+- Observación: "No soy …" solo cambia el nombre y conserva récords y avance (pendiente de decidir si debe empezar limpio).
+
+### 2026-11-10 (16) — Un perfil por jugador
+- Decisión del usuario: que cada nombre tenga sus propios récords.
+- Almacenamiento (`localStorage['misiones3']`): `{ current, muted, players: { [nombre normalizado]: { name, best, progress } } }`.
+  - El sonido es del dispositivo.
+  - Récords, avance y fallos son de cada jugador.
+  - `toRoot()` convierte el formato antiguo de un solo jugador sin perder datos.
+- Bienvenida:
+  - Si hay jugadores, "¿Quién juega?" con un botón por jugador.
+  - Si no, "¿Eres nuevo? Escribe tu nombre".
+  - El nombre se compara sin tildes ni mayúsculas ("leo" = "Leo"), así no se duplican perfiles.
+- Menú: "No soy …" pasa a ser "Cambiar de jugador".
+- "Borrar todo y empezar de nuevo" borra a todos los jugadores (el aviso lo dice).
+- `App.save()` centraliza el guardado del perfil actual dentro de su jugador.
+- Pruebas:
+  - `tests/check.js` valida la conversión del formato antiguo.
+  - En navegador:
+    - Datos antiguos → "Papá" conserva récord, avance y sonido apagado.
+    - "Leo" entra limpio; al volver a "Papá" recupera lo suyo sin ver lo de Leo.
+    - "leo" en minúsculas recupera el mismo perfil, que sigue igual tras recargar.
+    - Borrar todo deja el almacenamiento vacío.
+  - Regresión OK: partidas, repaso con fallos guardados, axe sin violaciones y auditoría de maquetación sin cambios.
+
 ## Respuestas por verificar (Science)
 1. "The green slide at recess" = **screw**. Ninguna opción es "inclined plane"; asumo que es un tobogán en espiral.
 2. "scissors" = **simple machine**. Algunos libros la llaman compuesta (dos palancas).

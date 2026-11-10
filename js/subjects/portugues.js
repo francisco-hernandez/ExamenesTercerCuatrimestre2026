@@ -31,7 +31,7 @@
         ],
         sections: [
             {
-                title: 'Expedição 1 · Animais silvestres e meio ambiente',
+                title: 'Expedição 1 · Animais silvestres e meio ambiente', image: { src: 'portugues-perezoso', alt: 'Perezoso de tres dedos abrazado a un árbol' },
                 intro: 'Animales silvestres, actitudes para cuidar la naturaleza y campañas educativas.',
                 exercises: [
                     {
@@ -140,7 +140,7 @@
             },
             {
                 title: 'Expedição 3 · Verbo ter',
-                intro: 'Eu tenho · ele/ela tem · nós temos · eles/elas têm.',
+                intro: 'Eu tenho, ele/ela tem, nós temos, eles/elas têm.',
                 exercises: [
                     {
                         type: 'choice', prompt: 'Escolha a frase correta.',
@@ -168,12 +168,12 @@
                             { text: 'O macaco ___ uma longa cauda.', answer: 'tem' },
                             { text: 'Os tucanos ___ bicos grandes e coloridos.', answer: 'teem' }
                         ],
-                        hints: ['Eu → tenho · ele/ela → tem · nós → temos · eles/elas → têm.', 'El mono es UNO (tem); los tucanes son VARIOS (têm).']
+                        hints: ['Eu → tenho, ele/ela → tem, nós → temos, eles/elas → têm.', 'El mono es UNO (tem); los tucanes son VARIOS (têm).']
                     }
                 ]
             },
             {
-                title: 'Expedição 4 · Leitura',
+                title: 'Expedição 4 · Leitura', image: { src: 'portugues-tucan', alt: 'Tucán de pico multicolor sobre una rama' },
                 intro: 'Lee los textos con atención y responde.',
                 exercises: [
                     {
@@ -193,7 +193,7 @@
                     },
                     {
                         type: 'write', text: MARIANA,
-                        prompt: 'Leia a situação e responda com atenção.',
+                        prompt: 'Leia a situação e responda com atenção.', image: { src: 'portugues-basura', alt: 'Botellas de plástico tiradas entre los árboles de un parque' },
                         fields: [
                             { label: 'A) Qual problema Mariana percebeu no parque?', accept: ['lixo', 'garrafa', 'papel', 'papeis', 'sujeira', 'sujo'] },
                             { label: 'B) Cite uma atitude que Mariana poderia tomar para ajudar a preservar esse lugar.', accept: ['recolher', 'juntar', 'catar', 'pegar', 'limpar', 'lixeira', 'lixo', 'recicl', 'cartaz', 'avisar', 'campanha'] },
@@ -201,7 +201,7 @@
                             { label: 'D1) Crie uma frase para uma campanha educativa sobre preservação da natureza.', accept: CAMPANHA },
                             { label: 'D2) Crie outra frase para a campanha.', accept: CAMPANHA }
                         ],
-                        answer: 'A) Havia lixo (garrafas e papéis) perto das árvores. B) Recolher o lixo e colocar na lixeira. C) Pássaro, macaco, esquilo, tucano... D) "Não jogue lixo no chão!" · "Cuide das árvores e dos animais!"',
+                        answer: 'A) Havia lixo (garrafas e papéis) perto das árvores. B) Recolher o lixo e colocar na lixeira. C) Pássaro, macaco, esquilo, tucano... D) "Não jogue lixo no chão!"; "Cuide das árvores e dos animais!"',
                         hints: ['A) ¿Qué había tirado cerca de los árboles? B) ¿Qué puede hacer Mariana con esa basura (lixo)?', 'C) El texto menciona "pássaros". D) Ejemplo: "Não jogue lixo no rio!"']
                     }
                 ]

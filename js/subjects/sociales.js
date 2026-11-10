@@ -29,13 +29,13 @@ EXAMS.sociales = {
     ],
     sections: [
         {
-            title: 'Taller 1 · Conceptos básicos del clima',
+            title: 'Taller 1 · Conceptos básicos del clima', image: { src: 'sociales-playa', alt: 'Costa rocosa bajo el sol en Costa Rica' },
             intro: 'Clima y tiempo atmosférico, elementos del clima y las épocas seca y lluviosa.',
             exercises: [
                 {
                     type: 'classify',
                     prompt: 'Lee cada oración y decide si habla del CLIMA o del TIEMPO ATMOSFÉRICO.',
-                    categories: [{ key: 'C', label: 'C · Clima' }, { key: 'T', label: 'T · Tiempo' }],
+                    categories: [{ key: 'C', label: 'Clima (C)' }, { key: 'T', label: 'Tiempo (T)' }],
                     items: [
                         { text: 'Mi mamá mañana va a ir a San José, le dije que alistara una sombrilla porque en la tarde puede llover.', answer: 'T' },
                         { text: 'Mateo y Danilo irán a Cahuita en Limón el fin de semana, llevamos bloqueador para evitar quemarnos con el sol.', answer: 'T' },
@@ -50,7 +50,7 @@ EXAMS.sociales = {
                 {
                     type: 'classify',
                     prompt: 'Lee cada oración y decide si es VERDADERA o FALSA.',
-                    categories: [{ key: 'V', label: 'V · Verdadero' }, { key: 'F', label: 'F · Falso' }],
+                    categories: [{ key: 'V', label: 'Verdadero (V)' }, { key: 'F', label: 'Falso (F)' }],
                     items: [
                         { text: 'La temperatura es la cantidad de calor que se percibe según la radiación solar.', answer: 'V' },
                         { text: 'En las zonas altas la temperatura aumenta.', answer: 'F' },
@@ -136,7 +136,7 @@ EXAMS.sociales = {
             ]
         },
         {
-            title: 'Taller 2 · El clima y las actividades de mi provincia',
+            title: 'Taller 2 · El clima y las actividades de mi provincia', image: { src: 'sociales-paramo', alt: 'Páramo con neblina y arbustos en lo alto de la montaña' },
             intro: 'Los tipos de clima de Costa Rica, dónde están y qué se cultiva según la altura.',
             exercises: [
                 {
@@ -203,7 +203,7 @@ EXAMS.sociales = {
             ]
         },
         {
-            title: 'Taller 3 · Los aportes de las provincias',
+            title: 'Taller 3 · Los aportes de las provincias', image: { src: 'sociales-volcan', alt: 'Volcán Arenal con nubes en la cima' },
             intro: 'Aportes culturales y económicos de las provincias de Costa Rica.',
             exercises: [
                 {
@@ -279,7 +279,7 @@ EXAMS.sociales = {
                         { label: 'Provincia', accept: ['limon'] },
                         { label: 'Grupo étnico', accept: ['afro', 'negr', 'jamaic'] }
                     ],
-                    answer: 'Limón · población afrodescendiente (afrocaribeña).',
+                    answer: 'Limón; población afrodescendiente (afrocaribeña).',
                     hints: ['Colón llegó por el mar Caribe.', 'Muchas familias de Limón tienen raíces en Jamaica y África.']
                 },
                 {

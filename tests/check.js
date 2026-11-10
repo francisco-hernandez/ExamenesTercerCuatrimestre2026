@@ -6,10 +6,19 @@ const ctx = { console };
 vm.createContext(ctx);
 const load = f => vm.runInContext(fs.readFileSync(path.join(root, f), 'utf8'), ctx, { filename: f });
 load('js/catalog.js');
+load('js/credits.js');
 fs.readdirSync(path.join(root, 'js/subjects')).forEach(f => load('js/subjects/' + f));
 load('js/engine.js');
 const { norm, hasAny, gradePool, unitsOf, canon, matchField, fieldsOf, poolsOf, pointsFor } =
     vm.runInContext('({ norm, hasAny, gradePool, unitsOf, canon, matchField, fieldsOf, poolsOf, pointsFor })', ctx);
+// perfiles: el formato antiguo de un solo jugador se convierte sin perder datos
+const toRoot = vm.runInContext('toRoot', ctx);
+const old = toRoot({ name: 'Leo', muted: true, best: { espanol: 85 }, progress: { sociales: { i: 3 } } });
+const J = JSON.stringify;
+assert.strictEqual(J(old), J({ current: 'leo', muted: true, players: { leo: { name: 'Leo', best: { espanol: 85 }, progress: { sociales: { i: 3 } } } } }));
+assert.strictEqual(J(toRoot({})), J({ current: null, muted: false, players: {} }));
+const nuevo = { current: 'ana', muted: false, players: { ana: { name: 'Ana', best: {}, progress: {} } } };
+assert.strictEqual(toRoot(nuevo), nuevo);
 // puntos por intento (opción A): 10 → 5 → 2, nunca negativo
 assert.deepStrictEqual([0, 1, 2, 3].map(pointsFor), [10, 5, 2, 0]);
 assert.strictEqual(canon(' Cor di-lle / ra '), 'cor-di-lle-ra');
@@ -48,4 +57,23 @@ for (const [id, ex] of Object.entries(EXAMS)) {
     }));
     console.log(`✔ ${id}: ${total * 10} puntos posibles`);
 }
+// imágenes: cada foto usada existe, tiene crédito con licencia libre y descripción; no hay fotos sin crédito
+const CREDITS = vm.runInContext('CREDITS', ctx), used = new Set();
+const useImg = (img, where) => {
+    assert.ok(CREDITS[img.src], where + ': sin crédito para ' + img.src);
+    assert.ok(fs.existsSync(path.join(root, 'assets/img', img.src + '.jpg')), where + ': falta assets/img/' + img.src + '.jpg');
+    assert.ok(img.alt && img.alt.length > 5, where + ': falta descripción (alt) de ' + img.src);
+    used.add(img.src);
+};
+CATALOG.forEach(c => c.image && useImg({ src: c.image, alt: 'cartucho ' + c.name }, 'catálogo ' + c.id));
+for (const [id, ex] of Object.entries(EXAMS)) ex.sections.forEach(s => {
+    if (s.image) useImg(s.image, id + ' ' + s.title);
+    s.exercises.forEach(e => e.image && useImg(e.image, id + ' ' + e.prompt.slice(0, 30)));
+});
+for (const [k, c] of Object.entries(CREDITS)) {
+    assert.ok(/^(CC0|CC BY(-SA)? [\d.]+|Public domain)/i.test(c.license), k + ': licencia no permitida ' + c.license);
+    assert.ok(c.author && c.source, k + ': crédito incompleto');
+}
+fs.readdirSync(path.join(root, 'assets/img')).forEach(f => assert.ok(CREDITS[f.replace(/\.jpg$/, '')], 'imagen sin crédito: ' + f));
+console.log('✔ imágenes: ' + used.size + ' usadas, ' + Object.keys(CREDITS).length + ' con crédito');
 console.log('Todo OK');

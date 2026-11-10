@@ -74,13 +74,13 @@
                             { label: '1 día = ¿cuántas horas?', accept: ['24', 'veinticuatro'] },
                             { label: '1 mes = ¿cuántos días (o semanas)?', accept: ['30', '31', 'treinta', '4 semanas', 'cuatro semanas'] }
                         ],
-                        answer: '1 minuto = 60 segundos · 1 día = 24 horas · 1 mes = 30 días (unas 4 semanas).',
+                        answer: '1 minuto = 60 segundos; 1 día = 24 horas; 1 mes = 30 días (unas 4 semanas).',
                         hints: ['Mira un reloj: la aguja de los segundos da una vuelta completa en 1 minuto.', 'Un mes tiene casi siempre 30 o 31 días.']
                     }
                 ]
             },
             {
-                title: 'Mundo 2 · Polígonos y circunferencia',
+                title: 'Mundo 2 · Polígonos y circunferencia', image: { src: 'matematicas-panal', alt: 'Lámina de cera de abejas llena de celdas iguales' },
                 intro: 'Clasificar polígonos según sus lados y los elementos de la circunferencia.',
                 exercises: [
                     {
@@ -106,7 +106,7 @@
                             { label: '2 (punto del medio)', accept: ['centro'] },
                             { label: '3 (línea roja)', accept: ['radio'] }
                         ],
-                        answer: '1 = diámetro · 2 = centro · 3 = radio.',
+                        answer: '1 = diámetro; 2 = centro; 3 = radio.',
                         hints: ['La línea que cruza todo el círculo pasando por el medio es el diámetro.', 'La línea que va del centro al borde es el radio.']
                     },
                     {
@@ -130,7 +130,7 @@
                 ]
             },
             {
-                title: 'Mundo 3 · Operaciones y problemas',
+                title: 'Mundo 3 · Operaciones y problemas', image: { src: 'matematicas-lapices', alt: 'Lápices de colores ordenados en círculo' },
                 intro: 'Términos de la división, multiplicación por 10 y 100, triple, quíntuple, reparto y problemas.',
                 exercises: [
                     {
@@ -149,21 +149,21 @@
                         type: 'write',
                         prompt: 'Multiplicación abreviada: escribe el resultado.',
                         fields: [exact('712 × 10 =', '7120', '7.120'), exact('800 × 100 =', '80000', '80.000'), exact('52 × 100 =', '5200', '5.200')],
-                        answer: '7120 · 80 000 · 5200.',
+                        answer: '7120; 80 000; 5200.',
                         hints: ['× 10: agrega un cero al final. × 100: agrega dos ceros.', '800 × 100 → 800 + 00 = 80000.']
                     },
                     {
                         type: 'write',
                         prompt: 'Escribe el <strong>triple</strong> de cada número (× 3).',
                         fields: [exact('Triple de 32 =', '96'), exact('Triple de 43 =', '129'), exact('Triple de 24 =', '72')],
-                        answer: '96 · 129 · 72.',
+                        answer: '96; 129; 72.',
                         hints: ['Triple = multiplicar por 3 (o sumar el número 3 veces).', '32 + 32 + 32 = 96.']
                     },
                     {
                         type: 'write',
                         prompt: 'Escribe el <strong>quíntuple</strong> de cada número (× 5).',
                         fields: [exact('Quíntuple de 51 =', '255'), exact('Quíntuple de 45 =', '225'), exact('Quíntuple de 30 =', '150')],
-                        answer: '255 · 225 · 150.',
+                        answer: '255; 225; 150.',
                         hints: ['Quíntuple = multiplicar por 5.', '30 × 5 = 150 (3 × 5 = 15 y agregas el cero).']
                     },
                     {
@@ -194,7 +194,7 @@
             },
             // Mundo 4: temas del temario que no vienen en la práctica PDF (añadidos a pedido del usuario).
             {
-                title: 'Mundo 4 · Extras del temario',
+                title: 'Mundo 4 · Extras del temario', image: { src: 'matematicas-balanza', alt: 'Balanza antigua con aguja' },
                 intro: 'Posición y localización, medidas de peso y cómo encontrar la moda.',
                 exercises: [
                     {
@@ -220,7 +220,7 @@
                     {
                         type: 'classify',
                         prompt: 'Estima el peso: ¿se mide mejor en gramos (g) o en kilogramos (kg)?',
-                        categories: [{ key: 'g', label: 'g · gramos' }, { key: 'kg', label: 'kg · kilogramos' }],
+                        categories: [{ key: 'g', label: 'g (gramos)' }, { key: 'kg', label: 'kg (kilogramos)' }],
                         items: [
                             { text: '🪶 Una pluma', answer: 'g' }, { text: '🍉 Una sandía', answer: 'kg' }, { text: '🐕 Un perro', answer: 'kg' },
                             { text: '✏️ Un lápiz', answer: 'g' }, { text: '🍪 Una galleta', answer: 'g' }, { text: '🍚 Un saco de arroz', answer: 'kg' }
@@ -235,7 +235,7 @@
                     },
                     {
                         type: 'choice',
-                        text: 'Encuesta: le preguntamos a 8 compañeros su bloque favorito de Minecraft.<br>🟫 tierra · 💎 diamante · 🪵 madera · 💎 diamante · 🟫 tierra · 💎 diamante · 🪨 piedra · 💎 diamante',
+                        text: 'Encuesta: le preguntamos a 8 compañeros su bloque favorito de Minecraft.<br>🟫 tierra, 💎 diamante, 🪵 madera, 💎 diamante, 🟫 tierra, 💎 diamante, 🪨 piedra, 💎 diamante',
                         prompt: '¿Cuál es la <strong>moda</strong> de la encuesta?',
                         options: ['Tierra', 'Diamante', 'Madera', 'Piedra'], answer: 1,
                         hints: ['Cuenta cuántas veces aparece cada bloque.', 'La moda es el que más se repite: el diamante aparece 4 veces.']
