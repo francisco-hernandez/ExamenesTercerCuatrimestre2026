@@ -1,5 +1,5 @@
 /**
- * ESTUDIOS SOCIALES — Práctica III trimestre (temática Jurassic World)
+ * ESTUDIOS SOCIALES — Práctica III trimestre (temática Parque Jurásico)
  * Fuente: "1. Prac. Estudios Sociales.pdf" + "Temario de tercer grado.pdf".
  *
  * Tipos de ejercicio (ver js/engine.js):

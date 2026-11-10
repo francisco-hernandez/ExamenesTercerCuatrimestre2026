@@ -1,5 +1,5 @@
 /**
- * PORTUGUÉS — Prática III trimestre (temática Parque Jurásico)
+ * PORTUGUÉS — Prática III trimestre (temática Jurassic World)
  * Fuente: "3.Prac. portugués.pdf" (preguntas 1 a 22) + "Temario de tercer grado.pdf".
  * Contenido en PORTUGUÉS; pistas, ánimos e instrucciones de la interfaz en ESPAÑOL.
  * Tipos y formato: ver cabecera de js/subjects/sociales.js.
@@ -13,7 +13,7 @@
     const CAMPANHA = ['nao', 'cuid', 'preserv', 'proteg', 'lixo', 'agua', 'arvore', 'natureza', 'planta', 'recicl', 'economiz', 'anima', 'floresta', 'rio', 'limp', 'respeit', 'ajud', 'salv'];
 
     EXAMS.portugues = {
-        title: 'Operação Parque Jurássico',
+        title: 'Operação Jurassic World',
         theme: 'jp',
         lang: 'pt',
         guide: { emoji: '🧑‍🔬', name: 'el paleontólogo' },

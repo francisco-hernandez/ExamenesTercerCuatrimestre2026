@@ -342,6 +342,27 @@ Registro de decisiones, cambios y avances del proyecto. Entradas más recientes 
   - Regresión OK: datos, partidas, axe sin violaciones y auditoría de maquetación sin cambios.
   - `git status --ignored` confirma que `assets/privado/` queda fuera del repositorio.
 
+### 2026-11-10 (18) — Imágenes privadas añadidas por el usuario
+- El usuario copió sus imágenes en `assets/privado/` (uso personal, solo en este equipo).
+- Revisión:
+  - **27 de 27 huecos cubiertos**: 6 cartuchos y 21 portadas de sección. Todos los nombres coinciden con `LEEME.txt` y no hay archivos sobrantes.
+  - Las 27 son imágenes válidas (JPEG o PNG; algunas PNG tienen extensión `.jpg`, el navegador las abre igual) y el navegador las carga todas.
+  - Git sigue ignorando la carpeta: `git status` limpio, nada de esto entra en el repositorio.
+- Observaciones para el usuario:
+  - **Mundos jurásicos cruzados:** la app asigna Jurassic World a Estudios Sociales y Parque Jurásico a Portugués. Las imágenes van al revés (logo de Jurassic Park en `sociales.jpg`, Jurassic World en `portugues.jpg`). Se puede intercambiar los archivos o los nombres de temática en `js/catalog.js`.
+  - **11 imágenes pequeñas** (menos de ~460 px de ancho en portadas o 400 px en cartuchos) pueden verse algo borrosas: `espanol-seccion1/3`, `ingles-seccion1/3`, `matematicas-seccion1/2/3/4`, `portugues`, `science-seccion2` (225x225) y `sociales` (229x170).
+  - Las imágenes cuadradas o verticales y los logos se recortan en el cartucho (franja de 130 px) y en las portadas (máx. 240 px de alto).
+- Sin cambios de código.
+
+### 2026-11-10 (19) — Intercambio de temáticas jurásicas
+- Decisión del usuario: cambiar los nombres de las temáticas para que coincidan con sus imágenes privadas.
+- Cambios:
+  - **Estudios Sociales → Parque Jurásico**.
+  - **Portugués → Jurassic World**; el título del examen pasa de "Operação Parque Jurássico" a "Operação Jurassic World".
+- Archivos tocados: `js/catalog.js`, `js/subjects/portugues.js` (título y cabecera), `js/subjects/sociales.js` (cabecera), comentarios de `css/app.css`, tabla del README y `assets/privado/LEEME.txt` (regenerado).
+- Los colores y fondos no cambian (selva verde en Sociales, volcán rojo en Portugués); solo cambian los nombres. La tabla de temáticas del 2026-11-10 inicial queda como registro histórico.
+- Verificado: `tests/check.js` OK, partidas de las 6 materias OK y captura del menú revisada (cada logo coincide con su temática).
+
 ## Respuestas por verificar (Science)
 1. "The green slide at recess" = **screw**. Ninguna opción es "inclined plane"; asumo que es un tobogán en espiral.
 2. "scissors" = **simple machine**. Algunos libros la llaman compuesta (dos palancas).

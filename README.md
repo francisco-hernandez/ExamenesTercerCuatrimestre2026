@@ -4,9 +4,9 @@ Exámenes de práctica convertidos en juegos. Cada jugador escribe su nombre al 
 
 | Materia | Temática |
 |---------|----------|
-| Estudios Sociales | Jurassic World ✅ |
+| Estudios Sociales | Parque Jurásico ✅ |
 | Español | LEGO ✅ |
-| Portugués | Parque Jurásico ✅ |
+| Portugués | Jurassic World ✅ |
 | Inglés | Marvel ✅ |
 | Matemáticas | Minecraft ✅ |
 | Science | Five Nights at Freddy's ✅ |
