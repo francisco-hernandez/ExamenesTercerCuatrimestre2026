@@ -377,6 +377,16 @@ Registro de decisiones, cambios y avances del proyecto. Entradas más recientes 
   - Recomendado: poner el repositorio en privado o eliminarlo y recrearlo vacío, y volver a subir el historial limpio.
 - La rama `main` local ahora sigue a `origin/main`.
 
+### 2026-11-10 (21) — Las imágenes privadas pasan al repositorio
+- Decisión del usuario: incluir sus imágenes de `assets/privado/` en el repositorio de GitHub. Se deshace su exclusión de `.gitignore`.
+- Aviso dado al usuario:
+  - El repositorio es público: esos logos y ese arte de marcas (Jurassic Park, LEGO, Marvel, Minecraft, Five Nights at Freddy's) quedan visibles y descargables.
+  - Riesgo de retirada por reclamación DMCA; se recomienda ponerlo en privado.
+  - El usuario decide mantenerlo así.
+- Los PDF del colegio y `PortuguesEjemplo/` **siguen excluidos** (el usuario no pidió incluirlos).
+- README ("Imágenes personalizadas") y `LEEME.txt` aclaran que esas imágenes no tienen licencia libre, pertenecen a sus titulares y no figuran en los créditos de la app.
+- Se suben las 27 imágenes y `LEEME.txt`; push a `origin/main`.
+
 ## Respuestas por verificar (Science)
 1. "The green slide at recess" = **screw**. Ninguna opción es "inclined plane"; asumo que es un tobogán en espiral.
 2. "scissors" = **simple machine**. Algunos libros la llaman compuesta (dos palancas).

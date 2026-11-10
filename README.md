@@ -43,10 +43,10 @@ Para añadir una foto:
 3. Usarla con `image: { src: '<clave>', alt: 'descripción que no revele la respuesta' }`.
 4. `node tests/check.js` comprueba que toda foto tenga crédito y descripción.
 
-## Imágenes privadas (solo en este equipo)
-La app se usa en local. En `assets/privado/` se pueden poner imágenes propias para uso personal; si existen, se muestran en lugar de las fotos libres. La lista de nombres exactos de archivo (cartucho de cada mundo y portada de cada sección) está en `assets/privado/LEEME.txt`. Sirven `.jpg`, `.png` o `.webp`.
+## Imágenes personalizadas
+En `assets/privado/` hay imágenes propias, elegidas por el dueño del repositorio para uso personal. Si existen, se muestran en lugar de las fotos libres. La lista de nombres exactos de archivo (cartucho de cada mundo y portada de cada sección) está en `assets/privado/LEEME.txt`. Sirven `.jpg`, `.png` o `.webp`.
 
-La carpeta está en `.gitignore`: su contenido nunca entra en el repositorio. Si algún día se publicara el proyecto, esas imágenes quedarían fuera y se verían las fotos libres.
+Estas imágenes no tienen licencia libre: pertenecen a sus respectivos titulares y no están cubiertas por los créditos de la app. Si se borra la carpeta, la app vuelve a mostrar las fotos libres de `assets/img/`.
 
 ## Pruebas
 `node tests/check.js` valida la corrección de respuestas y la integridad de los 6 bancos de preguntas.

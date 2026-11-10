@@ -1,0 +1,45 @@
+IMÁGENES PERSONALIZADAS (uso personal)
+
+Esta carpeta se guarda en el repositorio. Estas imágenes pertenecen a sus titulares (no tienen licencia libre).
+Copia aquí tus imágenes con estos nombres exactos (sirven .jpg, .png o .webp).
+Si una imagen no está, la app muestra la foto libre de siempre.
+Recomendado: imágenes horizontales de unos 800 px de ancho.
+
+Estudios Sociales (mundo Parque Jurásico)
+  sociales.jpg  -> cartucho del menú
+  sociales-seccion1.jpg  -> portada de: Taller 1: Conceptos básicos del clima
+  sociales-seccion2.jpg  -> portada de: Taller 2: El clima y las actividades de mi provincia
+  sociales-seccion3.jpg  -> portada de: Taller 3: Los aportes de las provincias
+
+Español (mundo LEGO)
+  espanol.jpg  -> cartucho del menú
+  espanol-seccion1.jpg  -> portada de: Nivel 1: El libro y la formación de palabras
+  espanol-seccion2.jpg  -> portada de: Nivel 2: Ortografía: g, j y acentuación
+  espanol-seccion3.jpg  -> portada de: Nivel 3: La oración y el uso de c, s y z
+
+Portugués (mundo Jurassic World)
+  portugues.jpg  -> cartucho del menú
+  portugues-seccion1.jpg  -> portada de: Expedição 1: Animais silvestres e meio ambiente
+  portugues-seccion2.jpg  -> portada de: Expedição 2: Sinônimos, antônimos, diminutivo e aumentativo
+  portugues-seccion3.jpg  -> portada de: Expedição 3: Verbo ter
+  portugues-seccion4.jpg  -> portada de: Expedição 4: Leitura
+
+Inglés (mundo Marvel)
+  ingles.jpg  -> cartucho del menú
+  ingles-seccion1.jpg  -> portada de: Mission 1: Countries and landmarks
+  ingles-seccion2.jpg  -> portada de: Mission 2: New vocabulary
+  ingles-seccion3.jpg  -> portada de: Mission 3: Simple past and comparatives
+  ingles-seccion4.jpg  -> portada de: Mission 4: Reading: a day at school
+
+Matemáticas (mundo Minecraft)
+  matematicas.jpg  -> cartucho del menú
+  matematicas-seccion1.jpg  -> portada de: Mundo 1: Datos y medidas
+  matematicas-seccion2.jpg  -> portada de: Mundo 2: Polígonos y circunferencia
+  matematicas-seccion3.jpg  -> portada de: Mundo 3: Operaciones y problemas
+  matematicas-seccion4.jpg  -> portada de: Mundo 4: Extras del temario
+
+Science (mundo Five Nights at Freddy's)
+  science.jpg  -> cartucho del menú
+  science-seccion1.jpg  -> portada de: Night 1: Simple machines
+  science-seccion2.jpg  -> portada de: Night 2: Earth's landscapes
+  science-seccion3.jpg  -> portada de: Night 3: Weather
