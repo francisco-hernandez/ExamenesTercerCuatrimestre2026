@@ -1,0 +1,249 @@
+/* ===== Base: cada temática solo redefine las variables ===== */
+:root {
+    --bg: radial-gradient(circle at 20% 10%, #3b2a7a, #14102e 70%);
+    --panel: rgba(255, 255, 255, 0.08);
+    --panel-border: rgba(255, 255, 255, 0.18);
+    --text: #f4f1ff;
+    --muted: #c9c3e8;
+    --accent: #ffcc33;
+    --accent-text: #2a1d00;
+    --accent2: #5ad1ff;
+    --ok: #3ddc84;
+    --bad: #ff6b6b;
+    --title-font: 'Bungee', system-ui, sans-serif;
+}
+
+/* Jurassic World — Estudios Sociales */
+body[data-theme="jw"] {
+    --bg: linear-gradient(rgba(6, 20, 10, 0.82), rgba(6, 20, 10, 0.92)),
+          radial-gradient(circle at 80% 0%, #2f6b2a, #0b1f0d 60%);
+    --panel: rgba(18, 40, 20, 0.75);
+    --panel-border: rgba(245, 166, 35, 0.45);
+    --text: #f3ead2;
+    --muted: #c8bf9f;
+    --accent: #f5a623;
+    --accent-text: #241400;
+    --accent2: #8bd17c;
+}
+
+/* Parque Jurásico — Portugués: noche en la selva, amarillo y rojo */
+body[data-theme="jp"] {
+    --bg: linear-gradient(rgba(10, 6, 2, 0.80), rgba(10, 6, 2, 0.92)),
+          radial-gradient(circle at 50% 0%, #6b2a10, #120804 65%);
+    --panel: rgba(28, 14, 6, 0.85);
+    --panel-border: #d7261e;
+    --text: #fbefd9;
+    --muted: #d9c4a0;
+    --accent: #ffc21a;
+    --accent-text: #2a1600;
+    --accent2: #ef5a50;
+}
+
+/* Marvel — Inglés: azul noche, rojo héroe y dorado */
+body[data-theme="marvel"] {
+    --bg: linear-gradient(150deg, #0b1a3a 0%, #13183d 45%, #4a0d12 100%);
+    --panel: rgba(10, 14, 36, 0.86);
+    --panel-border: #e23636;
+    --text: #f5f7ff;
+    --muted: #c7cde8;
+    --accent: #ffcf33;
+    --accent-text: #2a1d00;
+    --accent2: #4fa3ff;
+}
+
+/* Minecraft — Matemáticas: bloques de tierra con pasto, verde y diamante */
+body[data-theme="minecraft"] {
+    --bg: linear-gradient(#5b9c35 0 70px, #3f7a24 70px 82px, transparent 82px),
+          repeating-conic-gradient(#7a5230 0 25%, #6b4729 0 50%) 0 0 / 48px 48px;
+    --panel: rgba(28, 20, 12, 0.88);
+    --panel-border: #7cd64a;
+    --text: #f3f3f3;
+    --muted: #d8d0c0;
+    --accent: #7cd64a;
+    --accent-text: #0f2a05;
+    --accent2: #4fe0e6;
+    --title-font: 'Bungee', monospace;
+}
+body[data-theme="minecraft"] .card-panel,
+body[data-theme="minecraft"] .opt,
+body[data-theme="minecraft"] .btn-game { border-radius: 4px; }
+
+/* Five Nights (versión amigable) — Science: pizzería de noche, luz de linterna */
+body[data-theme="fnaf"] {
+    --bg: radial-gradient(ellipse at 50% -10%, rgba(255, 222, 89, 0.18), transparent 55%),
+          repeating-linear-gradient(45deg, #120a1c 0 22px, #0d0715 22px 44px);
+    --panel: rgba(22, 12, 34, 0.9);
+    --panel-border: #a24bff;
+    --text: #f4ecff;
+    --muted: #cbbbe0;
+    --accent: #ffde59;
+    --accent-text: #241a00;
+    --accent2: #ff4d6d;
+}
+
+/* LEGO — Español: azul con "pivotes" de ladrillo */
+body[data-theme="lego"] {
+    --bg: radial-gradient(circle, rgba(255, 255, 255, 0.10) 9px, transparent 10px) 0 0 / 34px 34px,
+          linear-gradient(160deg, #0b5cc7, #063a85);
+    --panel: rgba(4, 22, 60, 0.82);
+    --panel-border: #ffd500;
+    --text: #ffffff;
+    --muted: #d6e4ff;
+    --accent: #ffd500;
+    --accent-text: #1f1800;
+    --accent2: #ff5a4f;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: 'Fredoka', system-ui, sans-serif;
+    font-size: 1.1rem;
+}
+
+.title { font-family: var(--title-font); color: var(--accent); letter-spacing: 0.02em; }
+.lead, small, .form-label { color: var(--muted); }
+.big-emoji { font-size: 3.5rem; line-height: 1.2; display: block; }
+
+.card-panel {
+    background: var(--panel);
+    border: 2px solid var(--panel-border);
+    border-radius: 18px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Botones */
+.btn-game {
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 0;
+    border-radius: 999px;
+    padding: 0.7rem 1.8rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+    transition: transform 0.1s;
+}
+.btn-game:hover { transform: translateY(-2px); }
+.btn-game:active { transform: translateY(2px); box-shadow: none; }
+.btn-alt { background: var(--accent2); }
+.btn-link { color: var(--accent2); }
+
+/* Menú */
+.subject-card {
+    display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+    background: var(--panel); color: var(--text);
+    border: 2px solid var(--panel-border); border-radius: 18px;
+    padding: 1.2rem; transition: transform 0.15s, border-color 0.15s;
+}
+.subject-card:not(:disabled):hover { transform: translateY(-4px); border-color: var(--accent); }
+.subject-card:disabled { opacity: 0.45; }
+.badge-state { color: var(--accent); font-weight: 600; }
+
+/* Barra superior: franja oscura para que el texto no dependa del fondo del tema */
+.hud {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.55); padding: 0.6rem 0.8rem; border-radius: 12px;
+}
+.hud-title { flex: 1; font-weight: 600; font-size: 1rem; margin: 0; font-family: inherit; }
+.hud-points { font-weight: 700; color: var(--accent); }
+.hud .progress { height: 10px; background: rgba(255, 255, 255, 0.12); }
+.hud .progress-bar { background: var(--accent); }
+.hud-rewards { font-size: 1.4rem; min-height: 1.6rem; }
+
+.guide { display: inline-block; color: var(--text); background: rgba(0, 0, 0, 0.55); padding: 0.4rem 0.9rem; border-radius: 999px; }
+.question { font-size: 1.35rem; font-weight: 600; margin-bottom: 1rem; }
+.eq { display: block; text-align: center; font-size: 2.2rem; margin-top: 0.6rem; letter-spacing: 0.08em; }
+.eq mark { background: var(--accent); color: var(--accent-text); border-radius: 6px; padding: 0 0.3em; }
+.grid-map { margin: auto; border-collapse: collapse; }
+.grid-map td { width: 4.2rem; height: 4.2rem; text-align: center; font-size: 2rem; border: 2px solid #999; }
+.grid-map td.ref { background: #ffe08a; }
+.grid-map small { display: block; font-size: 0.7rem; }
+.reading { background: rgba(255, 255, 255, 0.92); color: #222; border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1rem; line-height: 1.6; }
+
+/* Opciones */
+.opt {
+    background: rgba(255, 255, 255, 0.08); color: var(--text);
+    border: 2px solid var(--panel-border); border-radius: 12px;
+    padding: 0.45rem 1rem; font-weight: 500;
+}
+.opt-lg { padding: 0.8rem 1rem; font-size: 1.1rem; text-align: left; }
+.opt:not(:disabled):hover { border-color: var(--accent); }
+/* Los estados llevan icono además de color (accesible para daltónicos) */
+.opt.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.opt.active::before { content: "● "; }
+.opt.right { background: var(--ok); color: #062b14; border-color: var(--ok); }
+.opt.right::before { content: "✔ "; }
+.opt.wrong { background: var(--bad); color: #2b0606; border-color: var(--bad); }
+.opt.wrong::before { content: "✖ "; }
+.opt.answer { border: 3px dashed var(--ok); }
+.opt.answer::before { content: "➜ "; }
+
+.classify-row { padding: 0.8rem; border-radius: 12px; margin-bottom: 0.6rem; border: 2px solid transparent; }
+.classify-row.right { border-color: var(--ok); border-style: solid; background: rgba(61, 220, 132, 0.08); }
+.classify-row.wrong { border-color: var(--bad); border-style: dashed; background: rgba(255, 107, 107, 0.08); }
+.row-status { font-weight: 600; margin-top: 0.3rem; color: var(--text); }
+.row-status:empty { display: none; }
+
+/* Foco de teclado bien visible en todos los temas */
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+[tabindex="-1"]:focus { outline: none; }
+
+/* Botón de sonido (en la barra superior y en el menú) */
+.sound-btn {
+    width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; line-height: 1;
+    background: rgba(0, 0, 0, 0.5); border: 2px solid var(--panel-border); color: var(--text);
+}
+
+.write-input { background: rgba(255, 255, 255, 0.92); }
+
+.hint { margin-top: 1rem; color: var(--text); }
+.hint:not(:empty) { padding: 0.8rem 1rem; border-left: 4px solid var(--accent); background: rgba(0, 0, 0, 0.25); border-radius: 8px; }
+
+.review-item { padding: 0.7rem 0.9rem; margin-top: 0.6rem; border-left: 4px solid var(--accent); background: rgba(0, 0, 0, 0.25); border-radius: 8px; }
+.review-item svg { width: 40px; height: 40px; vertical-align: middle; }
+.review .eq { display: inline; font-size: 1.2rem; }
+.score { font-size: 2rem; font-weight: 700; color: var(--accent); }
+
+/* Mini-juego */
+.mini-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; max-width: 380px; margin: 1rem auto 0; }
+.mini-cell { font-size: 2.4rem; aspect-ratio: 1; border-radius: 14px; border: 2px solid var(--panel-border); background: rgba(255, 255, 255, 0.06); }
+.mini-cell.right { background: var(--ok); }
+.shake { animation: shake 0.4s; }
+@keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+/* Avisos flotantes */
+.toasts { position: fixed; top: 1rem; right: 1rem; z-index: 1000; display: flex; flex-direction: column; gap: 0.5rem; }
+.toast-msg {
+    background: var(--accent); color: var(--accent-text);
+    padding: 0.7rem 1.1rem; border-radius: 12px; font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); animation: pop 0.3s;
+}
+@keyframes pop { from { transform: scale(0.6); opacity: 0; } }
+
+/* Botones cómodos para el dedo en pantallas táctiles */
+.opt, .btn-game, .subject-card { min-height: 44px; }
+
+/* Celular (xs de Bootstrap) */
+@media (max-width: 575.98px) {
+    body { font-size: 1rem; }
+    .card-panel { padding: 1rem; border-radius: 14px; }
+    .classify-row { padding: 0.6rem 0.2rem; }
+    .question { font-size: 1.15rem; }
+    .title { font-size: 1.5rem; }
+    .big-emoji { font-size: 2.6rem; }
+    .subject-card { padding: 0.8rem 0.5rem; height: 100%; }
+    .subject-card strong { font-size: 0.95rem; }
+    .subject-card small { font-size: 0.875rem; }
+    /* barra superior: botón y puntos arriba, título en su propia línea */
+    .hud-title { order: 3; flex-basis: 100%; font-size: 0.95rem; }
+    .hud .progress { order: 4; }
+    .hud-rewards { order: 5; }
+    .eq { font-size: 1.8rem; }
+    .toasts { left: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
