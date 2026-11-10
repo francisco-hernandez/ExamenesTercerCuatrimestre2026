@@ -363,6 +363,20 @@ Registro de decisiones, cambios y avances del proyecto. Entradas más recientes 
 - Los colores y fondos no cambian (selva verde en Sociales, volcán rojo en Portugués); solo cambian los nombres. La tabla de temáticas del 2026-11-10 inicial queda como registro histórico.
 - Verificado: `tests/check.js` OK, partidas de las 6 materias OK y captura del menú revisada (cada logo coincide con su temática).
 
+### 2026-11-10 (20) — Sincronización con GitHub
+- El usuario creó `https://github.com/francisco-hernandez/ExamenesTercerCuatrimestre2026` y subió la carpeta desde la web (commit `652560f` "Add files via upload").
+- Problema detectado: el repositorio es **público** y la subida web (que no respeta `.gitignore`) incluía:
+  - Los 7 PDF del colegio.
+  - Las 27 imágenes privadas con copyright.
+  - Una versión del código anterior al último commit.
+- Decisión del usuario: **force push limpio**.
+  - Se conectó `origin` y se subió el historial local (4 commits) con `--force-with-lease` sobre `652560f`.
+  - Verificado: GitHub `main` = local `dcd4eaa`, 40 archivos, 0 PDF y 0 imágenes privadas.
+- Pendiente (usuario):
+  - El commit sobrescrito `652560f` **sigue siendo accesible por su hash** (API y raw devuelven 200, incluidos un PDF y una imagen privada) hasta que GitHub lo purgue.
+  - Recomendado: poner el repositorio en privado o eliminarlo y recrearlo vacío, y volver a subir el historial limpio.
+- La rama `main` local ahora sigue a `origin/main`.
+
 ## Respuestas por verificar (Science)
 1. "The green slide at recess" = **screw**. Ninguna opción es "inclined plane"; asumo que es un tobogán en espiral.
 2. "scissors" = **simple machine**. Algunos libros la llaman compuesta (dos palancas).
